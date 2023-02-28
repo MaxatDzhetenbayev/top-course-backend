@@ -33,7 +33,7 @@ export class TopPageController {
 	@HttpCode(200)
 	@Post()
 	async find(@Body() dto: FintTopPageDto) {
-		
+
 	}
 
 
