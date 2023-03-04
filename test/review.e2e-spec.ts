@@ -6,12 +6,14 @@ import { CreateReviewDto } from 'src/review/dto/create-review.dto';
 import mongoose, { disconnect } from 'mongoose';
 
 
+const productId = new mongoose.Types.ObjectId().toHexString()
+
 const testDto: CreateReviewDto = {
 	title: 'title',
 	name: 'name',
 	description: 'description',
 	rating: 5,
-	productId: new mongoose.Types.ObjectId().toHexString()
+	productId,
 
 }
 
@@ -29,7 +31,7 @@ describe('AppController (e2e)', () => {
 		await app.init();
 	});
 
-	it('/review (POST)', async () => {
+	it('/review (POST) - succes', async () => {
 		return request(app.getHttpServer())
 			.post('/review')
 			.send(testDto)
@@ -40,11 +42,30 @@ describe('AppController (e2e)', () => {
 			})
 	});
 
+
+	it('/review (POST) - fail', () => {
+		return request(app.getHttpServer())
+			.post('/review')
+			.send({ ...testDto, rating: 6 })
+			.expect(400)
+
+	});
+
+	it('/review/byProduct/:productId (GET) - succes', async () => {
+		return request(app.getHttpServer())
+			.get('/review/byProduct/' + productId)
+			.then(({ body }: request.Response) => {
+				expect(body.length).toBe(1)
+			})
+	});
+
 	it('/review (DELETE)', () => {
 		return request(app.getHttpServer())
 			.delete(`/review/` + createdId)
 			.expect(202)
 	})
+
+
 
 	afterAll(() => {
 		disconnect()

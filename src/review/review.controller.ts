@@ -3,6 +3,8 @@ import { Body, Delete, Get, HttpCode, Param, Post } from '@nestjs/common/decorat
 import { CreateReviewDto } from './dto/create-review.dto';
 import { REVIEW_NOT_FOUND } from './review.constants';
 import { ReviewService } from './review.service';
+import { UsePipes } from '@nestjs/common/decorators'
+import { ValidationPipe } from '@nestjs/common/pipes'
 
 
 @Controller('review')
@@ -10,6 +12,7 @@ export class ReviewController {
 	constructor(private readonly reviewService: ReviewService) { }
 
 
+	@UsePipes(new ValidationPipe)
 	@HttpCode(201)
 	@Post('')
 	async create(@Body() dto: CreateReviewDto) {
@@ -25,6 +28,7 @@ export class ReviewController {
 		}
 	}
 
+	@HttpCode(200)
 	@Get('byProduct/:productId')
 	async getByProduct(@Param('productId') productId: string) {
 		return this.reviewService.findByProductId(productId)
