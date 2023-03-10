@@ -18,9 +18,15 @@ const testDto: CreateReviewDto = {
 }
 
 
-describe('AppController (e2e)', () => {
+const loginDto = {
+	login: 'admin@mail.ru',
+	password: 'admin'
+}
+
+describe('ReviewTest (e2e)', () => {
 	let app: INestApplication;
 	let createdId: string
+	let token: string
 
 	beforeEach(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -29,12 +35,18 @@ describe('AppController (e2e)', () => {
 
 		app = moduleFixture.createNestApplication();
 		await app.init();
+
+		const { body } = await request(app.getHttpServer())
+			.post('/auth/login')
+			.send(loginDto)
+		token = body.acces_token
 	});
 
 	it('/review (POST) - succes', async () => {
 		return request(app.getHttpServer())
 			.post('/review')
 			.send(testDto)
+			.set('Authorization', 'Bearer ' + token)
 			.expect(201)
 			.then(({ body }: request.Response) => {
 				createdId = body._id
@@ -47,6 +59,7 @@ describe('AppController (e2e)', () => {
 		return request(app.getHttpServer())
 			.post('/review')
 			.send({ ...testDto, rating: 6 })
+			.set('Authorization', 'Bearer ' + token)
 			.expect(400)
 
 	});
@@ -54,6 +67,7 @@ describe('AppController (e2e)', () => {
 	it('/review/byProduct/:productId (GET) - succes', async () => {
 		return request(app.getHttpServer())
 			.get('/review/byProduct/' + productId)
+			.set('Authorization', 'Bearer ' + token)
 			.then(({ body }: request.Response) => {
 				expect(body.length).toBe(1)
 			})
@@ -62,6 +76,7 @@ describe('AppController (e2e)', () => {
 	it('/review (DELETE)', () => {
 		return request(app.getHttpServer())
 			.delete(`/review/` + createdId)
+			.set('Authorization', 'Bearer ' + token)
 			.expect(202)
 	})
 

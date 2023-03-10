@@ -4,7 +4,7 @@ import { InjectModel } from 'nestjs-typegoose';
 import { UserModel } from './user.model';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs'
 import { AuthDto } from './dto/auth.dto';
-import { USER_NOT_FOUND_ERROR } from './auth.constants';
+import { USER_NOT_FOUND_ERROR, WRONG_PASSWORD_ERROR } from './auth.constants';
 import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthService {
 		}
 		const isCorrectPassword = compareSync(password, user.passwordHash)
 		if (!isCorrectPassword) {
-			throw new HttpException(USER_NOT_FOUND_ERROR, HttpStatus.UNAUTHORIZED)
+			throw new HttpException(WRONG_PASSWORD_ERROR, HttpStatus.UNAUTHORIZED)
 		}
 		return { email: user.email }
 	}

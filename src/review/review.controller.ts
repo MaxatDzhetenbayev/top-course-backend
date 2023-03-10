@@ -5,7 +5,7 @@ import { REVIEW_NOT_FOUND } from './review.constants';
 import { ReviewService } from './review.service';
 import { UsePipes } from '@nestjs/common/decorators'
 import { ValidationPipe } from '@nestjs/common/pipes'
-import { JwtGuard } from 'src/guards/jwt.guard';
+import { JwtGuard } from '../guards/jwt.guard';
 
 
 
