@@ -5,7 +5,12 @@ export interface ProductModel extends Base { }
 
 
 class ProductCharacteristics {
-	[key: string]: string
+	@prop()
+	name: string
+
+	@prop()
+	value: string
+
 }
 
 
@@ -30,13 +35,10 @@ export class ProductModel extends TimeStamps {
 	price: number
 
 	@prop()
-	oldPrice: number
+	oldPrice?: number
 
 	@prop()
 	credit: string
-
-	@prop()
-	rating: number
 
 	@prop()
 	advantages: string
@@ -44,7 +46,7 @@ export class ProductModel extends TimeStamps {
 	@prop()
 	disAdvantages: string
 
-	@prop({ type: () => ProductCharacteristics })
-	characteristics: ProductCharacteristics
+	@prop({ type: () => ProductCharacteristics, _id: false })
+	characteristics: ProductCharacteristics[]
 
 }
