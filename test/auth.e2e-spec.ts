@@ -29,7 +29,6 @@ describe('AuthTeset (e2e)', () => {
 			.send(loginDto)
 			.expect(200)
 			.then(({ body }: request.Response) => {
-				console.log(body)
 				expect(body.acces_token).toBeDefined()
 			})
 	})
