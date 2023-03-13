@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FindProductDto } from './dto/find-product.dto';
 import { PRODUCT_NOT_FOUND_ERROR } from './product.consts';
@@ -21,7 +22,7 @@ export class ProductController {
 
 	@HttpCode(200)
 	@Get(':id')
-	async get(@Param('id') id: string) {
+	async get(@Param('id', IdValidationPipe) id: string) {
 		const product = await this.productService.findById(id)
 		if (!product) {
 			throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND)
@@ -31,7 +32,7 @@ export class ProductController {
 
 	@HttpCode(202)
 	@Delete(':id')
-	async delete(@Param('id') id: string) {
+	async delete(@Param('id', IdValidationPipe) id: string) {
 		const deletedProduct = await this.productService.deleteById(id)
 		if (!deletedProduct) {
 			throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND)
@@ -40,7 +41,7 @@ export class ProductController {
 
 	@HttpCode(200)
 	@Patch(':id')
-	async patch(@Param('id') id: string, @Body() dto: ProductModel) {
+	async patch(@Param('id', IdValidationPipe) id: string, @Body() dto: ProductModel) {
 		const updatedProduct = await this.productService.updateById(id, dto)
 		if (!updatedProduct) {
 			throw new HttpException(PRODUCT_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND)
