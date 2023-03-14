@@ -34,9 +34,6 @@ export class PageAdvantage {
 export interface TopPageModel extends Base { }
 
 
-
-
-
 export class TopPageModel extends TimeStamps {
 	@prop({ enum: TopLevelCategory })
 	firstLevelCategory: TopLevelCategory
@@ -45,7 +42,7 @@ export class TopPageModel extends TimeStamps {
 	secondLevelCategory: string
 
 	@prop({ unique: true })
-	aias: string
+	alias: string
 
 	@prop()
 	title: string
