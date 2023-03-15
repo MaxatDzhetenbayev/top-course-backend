@@ -10,6 +10,11 @@ describe('ProductTest (e2e)', () => {
 	let token: string
 	let productId: string
 
+	const loginDto = {
+		login: 'admin@mail.ru',
+		password: 'admin'
+	}
+
 	const porudctDto = {
 		image: 'image_1',
 		title: 'title',
@@ -38,7 +43,7 @@ describe('ProductTest (e2e)', () => {
 
 		const { body } = await request(app.getHttpServer())
 			.post('/auth/login')
-			.send()
+			.send(loginDto)
 		token = body.acces_token
 	});
 
@@ -50,7 +55,6 @@ describe('ProductTest (e2e)', () => {
 			.expect(201)
 			.then(({ body }: request.Response) => {
 				productId = body._id
-				console.log(productId)
 			})
 	});
 

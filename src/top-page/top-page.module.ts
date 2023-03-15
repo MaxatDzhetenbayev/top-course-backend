@@ -7,14 +7,15 @@ import { TopPageService } from './top-page.service';
 @Module({
 	controllers: [TopPageController],
 	imports: [
-		TypegooseModule.forFeature([{
-			typegooseClass: TopPageModel,
-			schemaOptions: {
-				collection: 'Page'
+		TypegooseModule.forFeature([
+			{
+				typegooseClass: TopPageModel,
+				schemaOptions: {
+					collection: 'Page'
+				}
 			}
-		}])
+		])
 	],
 	providers: [TopPageService]
 })
-
 export class TopPageModule { }

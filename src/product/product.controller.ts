@@ -9,12 +9,10 @@ import { ProductService } from './product.service';
 @Controller('product')
 export class ProductController {
 
-	constructor(private readonly productService: ProductService) {
-
-	}
+	constructor(private readonly productService: ProductService) {}
 
 	@HttpCode(201)
-	@UsePipes(new ValidationPipe)
+	@UsePipes(new ValidationPipe())
 	@Post()
 	async create(@Body() dto: CreateProductDto) {
 		return this.productService.create(dto)
