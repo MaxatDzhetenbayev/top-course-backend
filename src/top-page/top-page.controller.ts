@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common'
 import { FindTopPageDto } from './dto/find-top-page.dto';
 import { IdValidationPipe } from '../pipes/id-validation.pipe'
 import { TopPageModel } from './top-page.model';
@@ -6,6 +6,7 @@ import { TopPageService } from './top-page.service';
 import { HttpException } from '@nestjs/common/exceptions';
 import { TOP_PAGE_BY_CATEGORY_ERROR, TOP_PAGE_NOT_FOUND_ERROR } from './top-page.consts';
 import { CreatePageDto } from './dto/create-page.dto';
+import { JwtGuard } from '../guards/jwt.guard';
 
 
 @Controller('top-page')
@@ -13,6 +14,7 @@ export class TopPageController {
 	constructor(private readonly pageService: TopPageService) { }
 
 	@HttpCode(201)
+	@UseGuards(JwtGuard)
 	@UsePipes(new ValidationPipe())
 	@Post()
 	async create(@Body() dto: CreatePageDto) {
@@ -42,6 +44,7 @@ export class TopPageController {
 	}
 
 	@HttpCode(202)
+	@UseGuards(JwtGuard)
 	@Delete(':id')
 	async delete(@Param('id', IdValidationPipe) id: Pick<TopPageModel, '_id'>) {
 		const deletedPage = await this.pageService.deleteById(id)
@@ -52,6 +55,7 @@ export class TopPageController {
 	}
 
 	@HttpCode(200)
+	@UseGuards(JwtGuard)
 	@Patch(':id')
 	async patch(@Param('id', IdValidationPipe) id: Pick<TopPageModel, '_id'>, @Body() dto: TopPageModel) {
 		const updatedPage = await this.pageService.updatePageById(id, dto)

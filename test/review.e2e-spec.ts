@@ -67,7 +67,6 @@ describe('ReviewTest (e2e)', () => {
 	it('/review/byProduct/:productId (GET) - succes', async () => {
 		return request(app.getHttpServer())
 			.get('/review/byProduct/' + productId)
-			.set('Authorization', 'Bearer ' + token)
 			.then(({ body }: request.Response) => {
 				expect(body.length).toBe(1)
 			})

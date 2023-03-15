@@ -60,6 +60,7 @@ describe('PageTest (e2e)', () => {
 	it('/top-page (POST) - access', async () => {
 		return request(app.getHttpServer())
 			.post('/top-page')
+			.set('Authorization', 'Bearer ' + token)
 			.send(createPage)
 			.expect(201)
 			.then(({ body }: request.Response) => {
@@ -89,6 +90,7 @@ describe('PageTest (e2e)', () => {
 	it('top-page/:id (PATCH) - access', () => {
 		return request(app.getHttpServer())
 			.patch('/top-page/' + pageId)
+			.set('Authorization', 'Bearer ' + token)
 			.send(updatePage)
 			.expect(200)
 	})
@@ -96,6 +98,7 @@ describe('PageTest (e2e)', () => {
 	it('top-page/:id (DELETE) - access', () => {
 		return request(app.getHttpServer())
 			.delete('/top-page/' + pageId)
+			.set('Authorization', 'Bearer ' + token)
 			.expect(202)
 	})
 

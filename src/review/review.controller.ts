@@ -19,7 +19,6 @@ export class ReviewController {
 	@HttpCode(201)
 	@Post('')
 	async create(@Body() dto: CreateReviewDto,) {
-
 		return this.reviewService.create(dto)
 	}
 
@@ -33,7 +32,6 @@ export class ReviewController {
 		}
 	}
 
-	@UseGuards(JwtGuard)
 	@HttpCode(200)
 	@Get('byProduct/:productId')
 	async getByProduct(@Param('productId', IdValidationPipe) productId: string) {

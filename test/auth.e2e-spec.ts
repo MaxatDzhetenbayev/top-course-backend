@@ -19,6 +19,7 @@ describe('AuthTeset (e2e)', () => {
 		}).compile()
 
 
+
 		app = moduleFixture.createNestApplication()
 		await app.init()
 	})

@@ -51,6 +51,7 @@ describe('ProductTest (e2e)', () => {
 	it('/product (POST) - access', () => {
 		return request(app.getHttpServer())
 			.post('/product')
+			.set('Authorization', 'Bearer ' + token)
 			.send(porudctDto)
 			.expect(201)
 			.then(({ body }: request.Response) => {
@@ -70,6 +71,7 @@ describe('ProductTest (e2e)', () => {
 	it('/product/:id (PATCH) - access', () => {
 		return request(app.getHttpServer())
 			.patch('/product/' + productId)
+			.set('Authorization', 'Bearer ' + token)
 			.send({ ...porudctDto, title: 'testNew' })
 			.expect(200)
 	});
@@ -77,6 +79,7 @@ describe('ProductTest (e2e)', () => {
 	it('/product/:id (DELETE) - acces', () => {
 		return request(app.getHttpServer())
 			.delete('/product/' + productId)
+			.set('Authorization', 'Bearer ' + token)
 			.expect(202)
 	});
 
