@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common'
 import { FindTopPageDto } from './dto/find-top-page.dto';
 import { IdValidationPipe } from '../pipes/id-validation.pipe'
-import { TopLevelCategory, TopPageModel } from './top-page.model';
+import { TopPageModel } from './top-page.model';
 import { TopPageService } from './top-page.service';
 import { HttpException } from '@nestjs/common/exceptions';
 import { TOP_PAGE_BY_CATEGORY_ERROR, TOP_PAGE_NOT_FOUND_ERROR } from './top-page.consts';
