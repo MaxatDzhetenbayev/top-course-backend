@@ -78,4 +78,8 @@ export class TopPageController {
 		return categoryPages
 	}
 
+	@Get('query/:text')
+	async queryText(@Param('text') text: string) {
+		return this.pageService.findByQueryText(text)
+	}
 }
