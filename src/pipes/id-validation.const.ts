@@ -1,1 +1,0 @@
-export const ID_VALIDATION_ERROR = 'указан неверный id';
