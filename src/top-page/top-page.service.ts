@@ -29,7 +29,13 @@ export class TopPageService {
 	}
 
 	async findByCategory(firstLevelCategory: TopLevelCategory) {
-		return this.pageModel.find({ firstLevelCategory }, { alias: 1, title: 1, secondLevelCategory: 1 }).exec()
+		return this.pageModel.aggregate()
+			.match({ firstLevelCategory })
+			.group({
+				_id: '$secondLevelCategory',
+				pages: { '$push': { alias: '$alias', title: '$title' } }
+			})
+			.exec()
 	}
 
 	async findByQueryText(text: string) {
