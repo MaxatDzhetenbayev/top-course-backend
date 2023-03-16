@@ -4,7 +4,7 @@ import { IdValidationPipe } from '../pipes/id-validation.pipe'
 import { TopPageModel } from './top-page.model';
 import { TopPageService } from './top-page.service';
 import { HttpException } from '@nestjs/common/exceptions';
-import { TOP_PAGE_BY_CATEGORY_ERROR, TOP_PAGE_NOT_FOUND_ERROR } from './top-page.consts';
+import { TOP_PAGE_BY_CATEGORY_ERROR, TOP_PAGE_BY_QUERY_ERROR, TOP_PAGE_NOT_FOUND_ERROR } from './top-page.consts';
 import { CreatePageDto } from './dto/create-page.dto';
 import { JwtGuard } from '../guards/jwt.guard';
 
@@ -78,8 +78,15 @@ export class TopPageController {
 		return categoryPages
 	}
 
+	@HttpCode(200)
 	@Get('query/:text')
 	async queryText(@Param('text') text: string) {
-		return this.pageService.findByQueryText(text)
+		const resPages = await this.pageService.findByQueryText(text)
+
+		if (!resPages) {
+			throw new HttpException(TOP_PAGE_BY_QUERY_ERROR, HttpStatus.NOT_FOUND)
+		}
+
+		return resPages
 	}
 }

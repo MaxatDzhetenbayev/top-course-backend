@@ -12,6 +12,7 @@ describe('PageTest (e2e)', () => {
 	let token: string
 	let pageId: string
 	let alias: string
+	let queryText: string
 
 	const loginDto = {
 		login: 'admin@mail.ru',
@@ -66,6 +67,7 @@ describe('PageTest (e2e)', () => {
 			.then(({ body }: request.Response) => {
 				pageId = body._id
 				alias = body.alias
+				queryText = body.seoText
 			})
 	})
 
@@ -102,6 +104,14 @@ describe('PageTest (e2e)', () => {
 			.expect(202)
 	})
 
+	it('top-page/query/:text (GET) - acces', () => {
+		return request(app.getHttpServer())
+			.get('/top-page/query/' + queryText)
+			.expect(200)
+			.then(({ body }: request.Response) => {
+				expect(body).toBeDefined()
+			})
+	})
 
 
 	afterAll(() => {
